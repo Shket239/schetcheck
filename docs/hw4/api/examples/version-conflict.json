@@ -1,0 +1,10 @@
+{
+  "error": {
+    "code": "VERSION_CONFLICT",
+    "message": "Данные изменились. Откройте подтверждение заново.",
+    "fields": {
+      "receipt_version": "Ожидалась версия 3, передана версия 2."
+    },
+    "request_id": "req_demo_002"
+  }
+}

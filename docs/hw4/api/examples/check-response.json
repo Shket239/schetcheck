@@ -1,0 +1,44 @@
+{
+  "check_id": "chk_001",
+  "status": "completed",
+  "result": "findings",
+  "coverage": "complete",
+  "input": {
+    "receipt_id": "rcpt_001",
+    "receipt_version": 2,
+    "apartment_id": "apt_001",
+    "apartment_version": 3
+  },
+  "currency": "RUB",
+  "possible_overpayment": "130.00",
+  "findings": [
+    {
+      "finding_id": "fnd_001",
+      "line_id": "line_001",
+      "code": "TARIFF_MISMATCH",
+      "title": "Возможное завышение тарифа",
+      "explanation": "В квитанции тариф 7,80 руб./кВт·ч, в учебном справочнике 6,50 руб./кВт·ч.",
+      "charged_amount": "780.00",
+      "expected_amount": "650.00",
+      "possible_overpayment": "130.00",
+      "calculation": {
+        "volume": "100.000",
+        "unit": "kWh",
+        "applied_tariff": "7.8000",
+        "reference_tariff": "6.5000"
+      },
+      "rule_version": "tariff-match-v1",
+      "tariff": {
+        "record_id": "tariff_demo_001",
+        "version": 1,
+        "source_ref": "demo-source-2026-10",
+        "source_title": "Учебный справочник тарифов, пример для ДЗ4",
+        "valid_from": "2026-10-01",
+        "valid_to": "2026-10-31"
+      }
+    }
+  ],
+  "skipped_rules": [],
+  "access_used": "subscription",
+  "created_at": "2026-11-09T10:00:00Z"
+}

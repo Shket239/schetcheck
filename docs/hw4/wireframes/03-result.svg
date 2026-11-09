@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="850" viewBox="0 0 420 850" role="img" aria-labelledby="title desc">
+<style>text{font-family:Arial,sans-serif;fill:#222} .small{font-size:13px} .body{font-size:15px} .label{font-size:14px;font-weight:700}</style>
+<rect x="1" y="1" width="418" height="848" rx="18" fill="#fafafa" stroke="#555" stroke-width="2"/>
+<path d="M1 96H419" stroke="#aaa"/>
+<text x="24" y="35" font-size="19" font-weight="700">СчётЧек</text>
+<title id="title">Результат проверки</title>
+<desc id="desc">Шаг 3 из 4 · октябрь 2026</desc>
+<text x="24" y="65" font-size="18" font-weight="700">Результат проверки</text>
+<text x="24" y="86" class="small">Шаг 3 из 4 · октябрь 2026</text>
+<rect x="24" y="116" width="372" height="99" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="140" font-size="14" font-weight="700" style="fill:#222">Возможная переплата: 130,00 ₽</text>
+<text x="38" y="163" font-size="14" font-weight="400" style="fill:#222">Начислено: 780,00 ₽</text>
+<text x="38" y="186" font-size="14" font-weight="400" style="fill:#222">По расчёту: 650,00 ₽</text>
+<text x="38" y="209" font-size="14" font-weight="400" style="fill:#222">Это оценка, а не подтверждённый возврат.</text>
+<rect x="24" y="231" width="372" height="168" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="255" font-size="14" font-weight="700" style="fill:#222">[✓] Возможное завышение тарифа</text>
+<text x="38" y="278" font-size="14" font-weight="400" style="fill:#222">Электроэнергия · строка 1</text>
+<text x="38" y="301" font-size="14" font-weight="400" style="fill:#222">В квитанции: 7,80 ₽/кВт·ч</text>
+<text x="38" y="324" font-size="14" font-weight="400" style="fill:#222">В справочнике: 6,50 ₽/кВт·ч</text>
+<text x="38" y="347" font-size="14" font-weight="400" style="fill:#222">100,000 × 6,50 = 650,00 ₽</text>
+<text x="38" y="370" font-size="14" font-weight="400" style="fill:#222">Разница: 130,00 ₽</text>
+<text x="38" y="393" font-size="14" font-weight="400" style="fill:#222">Выбрано для заявления</text>
+<rect x="24" y="415" width="372" height="99" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="439" font-size="14" font-weight="700" style="fill:#222">Источник тарифа</text>
+<text x="38" y="462" font-size="14" font-weight="400" style="fill:#222">Учебный справочник · октябрь 2026</text>
+<text x="38" y="485" font-size="14" font-weight="400" style="fill:#222">Действует: 01.10.2026 - 31.10.2026</text>
+<text x="38" y="508" font-size="14" font-weight="400" style="fill:#222">[ Показать запись и расчёт ]</text>
+<rect x="24" y="530" width="372" height="76" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="554" font-size="14" font-weight="700" style="fill:#222">Проверки выполнены полностью</text>
+<text x="38" y="577" font-size="14" font-weight="400" style="fill:#222">Пропущенных проверок нет.</text>
+<text x="38" y="600" font-size="14" font-weight="400" style="fill:#222">Подробности по каждой строке выше.</text>
+<rect x="24" y="626" width="372" height="48" rx="6" fill="#333" stroke="#888"/>
+<text x="38" y="650" font-size="14" font-weight="700" style="fill:#fff">Подготовить заявление</text>
+<rect x="24" y="690" width="372" height="76" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="714" font-size="14" font-weight="700" style="fill:#222">В доступ входит активная подписка.</text>
+<text x="38" y="737" font-size="14" font-weight="400" style="fill:#222">Без доступа: подписка или 299 ₽</text>
+<text x="38" y="760" font-size="14" font-weight="400" style="fill:#222">за заявление по этой квитанции.</text>
+<text x="24" y="827" class="small">Wireframe · MVP · учебный пример</text></svg>

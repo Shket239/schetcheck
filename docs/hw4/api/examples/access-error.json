@@ -1,0 +1,8 @@
+{
+  "error": {
+    "code": "CHECK_ACCESS_REQUIRED",
+    "message": "Бесплатная проверка уже использована. Нужна подписка.",
+    "fields": {},
+    "request_id": "req_demo_003"
+  }
+}

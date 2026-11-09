@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="850" viewBox="0 0 420 850" role="img" aria-labelledby="title desc">
+<style>text{font-family:Arial,sans-serif;fill:#222} .small{font-size:13px} .body{font-size:15px} .label{font-size:14px;font-weight:700}</style>
+<rect x="1" y="1" width="418" height="848" rx="18" fill="#fafafa" stroke="#555" stroke-width="2"/>
+<path d="M1 96H419" stroke="#aaa"/>
+<text x="24" y="35" font-size="19" font-weight="700">СчётЧек</text>
+<title id="title">Новая квитанция</title>
+<desc id="desc">Шаг 1 из 4</desc>
+<text x="24" y="65" font-size="18" font-weight="700">Новая квитанция</text>
+<text x="24" y="86" class="small">Шаг 1 из 4</text>
+<rect x="24" y="116" width="372" height="76" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="140" font-size="14" font-weight="700" style="fill:#222">Квартира: Примерная, 1, кв. 10</text>
+<text x="38" y="163" font-size="14" font-weight="400" style="fill:#222">Вы вошли по телефону. Подписка активна.</text>
+<text x="38" y="186" font-size="14" font-weight="400" style="fill:#222">Для нового аккаунта: первая проверка 0 ₽.</text>
+<rect x="24" y="212" width="372" height="186" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="236" font-size="14" font-weight="700" style="fill:#222">Фото квитанции</text>
+<text x="38" y="259" font-size="14" font-weight="400" style="fill:#222">[ область снимка / превью файла ]</text>
+<text x="38" y="282" font-size="14" font-weight="400" style="fill:#222"></text>
+<text x="38" y="305" font-size="14" font-weight="400" style="fill:#222">Нужны все строки и итоговая сумма.</text>
+<text x="38" y="328" font-size="14" font-weight="400" style="fill:#222">Не обрезайте адрес и период.</text>
+<text x="38" y="351" font-size="14" font-weight="400" style="fill:#222">Распознанные поля можно исправить.</text>
+<rect x="24" y="418" width="372" height="48" rx="6" fill="#333" stroke="#888"/>
+<text x="38" y="442" font-size="14" font-weight="700" style="fill:#fff">Сфотографировать</text>
+<rect x="24" y="480" width="372" height="48" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="504" font-size="14" font-weight="700" style="fill:#222">Выбрать фото или PDF</text>
+<rect x="24" y="548" width="372" height="76" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="572" font-size="14" font-weight="700" style="fill:#222">JPG, PNG, HEIC, PDF · до 10 МБ</text>
+<text x="38" y="595" font-size="14" font-weight="400" style="fill:#222">Распознавание: до 15 секунд.</text>
+<text x="38" y="618" font-size="14" font-weight="400" style="fill:#222">Исходник удаляется через 30 дней.</text>
+<rect x="24" y="644" width="372" height="76" rx="6" fill="#fff" stroke="#888"/>
+<text x="38" y="668" font-size="14" font-weight="700" style="fill:#222">Если снимок не читается</text>
+<text x="38" y="691" font-size="14" font-weight="400" style="fill:#222">Не удалось прочитать часть строк.</text>
+<text x="38" y="714" font-size="14" font-weight="400" style="fill:#222">Переснимите при хорошем освещении.</text>
+<text x="24" y="827" class="small">Wireframe · MVP · учебный пример</text></svg>

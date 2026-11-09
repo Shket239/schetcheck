@@ -1,0 +1,861 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "СчётЧек. ДЗ4",
+    "version": "0.1.0",
+    "description": "Проект двух контрактов MVP. Учебные примеры, API пока не реализован."
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/v1/checks": {
+      "post": {
+        "summary": "Проверить квитанцию",
+        "operationId": "createCheck",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "Уникальный ключ запроса. Действует 24 часа для пользователя и ручки.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckRequest"
+              },
+              "example": {
+                "receipt_id": "rcpt_001",
+                "receipt_version": 2,
+                "apartment_id": "apt_001",
+                "apartment_version": 3
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Создан результат. При повторе с тем же ключом возвращается тот же ответ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckResponse"
+                },
+                "example": {
+                  "check_id": "chk_001",
+                  "status": "completed",
+                  "result": "findings",
+                  "coverage": "complete",
+                  "input": {
+                    "receipt_id": "rcpt_001",
+                    "receipt_version": 2,
+                    "apartment_id": "apt_001",
+                    "apartment_version": 3
+                  },
+                  "currency": "RUB",
+                  "possible_overpayment": "130.00",
+                  "findings": [
+                    {
+                      "finding_id": "fnd_001",
+                      "line_id": "line_001",
+                      "code": "TARIFF_MISMATCH",
+                      "title": "Возможное завышение тарифа",
+                      "explanation": "В квитанции тариф 7,80 руб./кВт·ч, в учебном справочнике 6,50 руб./кВт·ч.",
+                      "charged_amount": "780.00",
+                      "expected_amount": "650.00",
+                      "possible_overpayment": "130.00",
+                      "calculation": {
+                        "volume": "100.000",
+                        "unit": "kWh",
+                        "applied_tariff": "7.8000",
+                        "reference_tariff": "6.5000"
+                      },
+                      "rule_version": "tariff-match-v1",
+                      "tariff": {
+                        "record_id": "tariff_demo_001",
+                        "version": 1,
+                        "source_ref": "demo-source-2026-10",
+                        "source_title": "Учебный справочник тарифов, пример для ДЗ4",
+                        "valid_from": "2026-10-01",
+                        "valid_to": "2026-10-31"
+                      }
+                    }
+                  ],
+                  "skipped_rules": [],
+                  "access_used": "subscription",
+                  "created_at": "2026-11-09T10:00:00Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный JSON или отсутствует ключ повтора",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Нужен вход",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет доступа к действию",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или чужой",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт версии или ключа повтора",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Ошибка данных",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Временная ошибка, доступ не расходуется",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/statements": {
+      "post": {
+        "summary": "Подготовить заявление",
+        "operationId": "createStatement",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "Уникальный ключ запроса. Действует 24 часа для пользователя и ручки.",
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatementRequest"
+              },
+              "example": {
+                "check_id": "chk_001",
+                "finding_ids": [
+                  "fnd_001"
+                ],
+                "applicant": {
+                  "full_name": "Иван Иванов"
+                },
+                "recipient": {
+                  "organization_name": "УК Учебная"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Создан результат. При повторе с тем же ключом возвращается тот же ответ.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatementResponse"
+                },
+                "example": {
+                  "statement_id": "stmt_001",
+                  "status": "draft",
+                  "check_id": "chk_001",
+                  "finding_ids": [
+                    "fnd_001"
+                  ],
+                  "text": "В УК Учебная\nОт: Иван Иванов\nАдрес: г. Учебный, ул. Примерная, д. 1, кв. 10\nЛицевой счёт: DEMO-001\n\nЗаявление о проверке начислений\n\nПрошу проверить начисление за электроэнергию за октябрь 2026 года. В квитанции указан расход 100,000 кВт·ч и тариф 7,80 руб./кВт·ч, начислено 780,00 руб. При тарифе 6,50 руб./кВт·ч из учебной записи demo-source-2026-10 расчёт составляет 100,000 × 6,50 = 650,00 руб. Возможная разница составляет 130,00 руб. Прошу пояснить применённый тариф и при подтверждении ошибки выполнить перерасчёт.\n\nУчебный пример. Перед подачей нужно проверить данные и источник тарифа.\nДата: __________  Подпись: __________",
+                  "created_at": "2026-11-09T10:01:00Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Некорректный JSON или отсутствует ключ повтора",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Нужен вход",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Нет доступа к действию",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не найден или чужой",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт версии или ключа повтора",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Ошибка данных",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Временная ошибка, доступ не расходуется",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "CheckRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "receipt_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "receipt_version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "apartment_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "apartment_version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "receipt_id",
+          "receipt_version",
+          "apartment_id",
+          "apartment_version"
+        ]
+      },
+      "Tariff": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "source_title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "valid_from": {
+            "type": "string",
+            "format": "date"
+          },
+          "valid_to": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "record_id",
+          "version",
+          "source_ref",
+          "source_title",
+          "valid_from",
+          "valid_to"
+        ]
+      },
+      "Calculation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "volume": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{3}$"
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "kWh",
+              "m3",
+              "m2",
+              "person",
+              "Gcal"
+            ]
+          },
+          "applied_tariff": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{4}$"
+          },
+          "reference_tariff": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{4}$"
+          }
+        },
+        "required": [
+          "volume",
+          "unit",
+          "applied_tariff",
+          "reference_tariff"
+        ]
+      },
+      "Finding": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "line_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "TARIFF_MISMATCH",
+              "AMOUNT_MISMATCH",
+              "NORM_INSTEAD_OF_METER",
+              "AREA_MISMATCH",
+              "RESIDENTS_MISMATCH",
+              "DUPLICATE_LINE"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "explanation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "charged_amount": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{2}$"
+          },
+          "expected_amount": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{2}$"
+          },
+          "possible_overpayment": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{2}$"
+          },
+          "calculation": {
+            "$ref": "#/components/schemas/Calculation"
+          },
+          "rule_version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "tariff": {
+            "$ref": "#/components/schemas/Tariff"
+          }
+        },
+        "required": [
+          "finding_id",
+          "line_id",
+          "code",
+          "title",
+          "explanation",
+          "charged_amount",
+          "expected_amount",
+          "possible_overpayment",
+          "rule_version"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "code": {
+                  "const": "TARIFF_MISMATCH"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "tariff",
+                "calculation"
+              ]
+            }
+          }
+        ]
+      },
+      "SkippedRule": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "rule": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "reason_code": {
+            "type": "string",
+            "enum": [
+              "TARIFF_NOT_FOUND",
+              "METER_DATA_MISSING",
+              "UNSUPPORTED_SERVICE"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "line_id",
+          "rule",
+          "reason_code",
+          "message"
+        ]
+      },
+      "CheckResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "check_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "completed"
+            ]
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "findings",
+              "no_discrepancies",
+              "inconclusive"
+            ]
+          },
+          "coverage": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "partial"
+            ]
+          },
+          "input": {
+            "$ref": "#/components/schemas/CheckRequest"
+          },
+          "currency": {
+            "type": "string",
+            "enum": [
+              "RUB"
+            ]
+          },
+          "possible_overpayment": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.[0-9]{2}$"
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Finding"
+            }
+          },
+          "skipped_rules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkippedRule"
+            }
+          },
+          "access_used": {
+            "type": "string",
+            "enum": [
+              "subscription",
+              "first_free"
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "check_id",
+          "status",
+          "result",
+          "coverage",
+          "input",
+          "currency",
+          "possible_overpayment",
+          "findings",
+          "skipped_rules",
+          "access_used",
+          "created_at"
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "coverage": {
+                  "const": "complete"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "skipped_rules": {
+                  "maxItems": 0
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "skipped_rules": {
+                  "minItems": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "result": {
+                  "const": "findings"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "findings": {
+                  "minItems": 1
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "findings": {
+                  "maxItems": 0
+                },
+                "possible_overpayment": {
+                  "const": "0.00"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "result": {
+                  "const": "no_discrepancies"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "coverage": {
+                  "const": "complete"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "result": {
+                  "const": "inconclusive"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "coverage": {
+                  "const": "partial"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "StatementRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "check_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "finding_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "applicant": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "full_name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              }
+            },
+            "required": [
+              "full_name"
+            ]
+          },
+          "recipient": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "organization_name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              }
+            },
+            "required": [
+              "organization_name"
+            ]
+          }
+        },
+        "required": [
+          "check_id",
+          "finding_ids",
+          "applicant",
+          "recipient"
+        ]
+      },
+      "StatementResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "statement_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft"
+            ]
+          },
+          "check_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "finding_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "statement_id",
+          "status",
+          "check_id",
+          "finding_ids",
+          "text",
+          "created_at"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "type": "string",
+                "enum": [
+                  "INVALID_JSON",
+                  "IDEMPOTENCY_KEY_REQUIRED",
+                  "UNAUTHORIZED",
+                  "CHECK_ACCESS_REQUIRED",
+                  "STATEMENT_ACCESS_REQUIRED",
+                  "RESOURCE_NOT_FOUND",
+                  "VERSION_CONFLICT",
+                  "IDEMPOTENCY_CONFLICT",
+                  "VALIDATION_ERROR",
+                  "TEMPORARILY_UNAVAILABLE"
+                ]
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fields": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "request_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "fields",
+              "request_id"
+            ]
+          }
+        },
+        "required": [
+          "error"
+        ]
+      }
+    }
+  }
+}

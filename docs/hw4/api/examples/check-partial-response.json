@@ -1,0 +1,25 @@
+{
+  "check_id": "chk_002",
+  "status": "completed",
+  "result": "inconclusive",
+  "coverage": "partial",
+  "input": {
+    "receipt_id": "rcpt_001",
+    "receipt_version": 2,
+    "apartment_id": "apt_001",
+    "apartment_version": 3
+  },
+  "currency": "RUB",
+  "possible_overpayment": "0.00",
+  "findings": [],
+  "skipped_rules": [
+    {
+      "line_id": "line_001",
+      "rule": "tariff-match-v1",
+      "reason_code": "TARIFF_NOT_FOUND",
+      "message": "Нет тарифа для услуги, поставщика и периода. Проверить тариф не удалось."
+    }
+  ],
+  "access_used": "subscription",
+  "created_at": "2026-11-09T10:00:00Z"
+}

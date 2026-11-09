@@ -1,0 +1,12 @@
+{
+  "check_id": "chk_001",
+  "finding_ids": [
+    "fnd_001"
+  ],
+  "applicant": {
+    "full_name": "Иван Иванов"
+  },
+  "recipient": {
+    "organization_name": "УК Учебная"
+  }
+}

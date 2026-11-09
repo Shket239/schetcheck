@@ -1,0 +1,49 @@
+{
+  "note": "Учебные данные. Не действующие тарифы и не реальные персональные данные.",
+  "receipt": {
+    "receipt_id": "rcpt_001",
+    "version": 2,
+    "status": "confirmed",
+    "period": "2026-10",
+    "address": "г. Учебный, ул. Примерная, д. 1, кв. 10",
+    "account_number": "DEMO-001",
+    "provider_id": "provider_demo",
+    "organization_name": "УК Учебная",
+    "total_amount": "780.00",
+    "currency": "RUB",
+    "lines": [
+      {
+        "line_id": "line_001",
+        "service": "electricity",
+        "name": "Электроэнергия",
+        "unit": "kWh",
+        "volume": "100.000",
+        "tariff": "7.8000",
+        "charged_amount": "780.00"
+      }
+    ]
+  },
+  "apartment": {
+    "apartment_id": "apt_001",
+    "version": 3,
+    "region_code": "demo-region",
+    "address": "г. Учебный, ул. Примерная, д. 1, кв. 10",
+    "area_m2": "54.00",
+    "residents_count": 2,
+    "meters": [
+      {
+        "meter_id": "meter_001",
+        "service": "electricity",
+        "unit": "kWh",
+        "previous": {
+          "date": "2026-09-30",
+          "value": "1240.000"
+        },
+        "current": {
+          "date": "2026-10-31",
+          "value": "1340.000"
+        }
+      }
+    ]
+  }
+}

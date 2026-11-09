@@ -1,0 +1,10 @@
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Проверьте данные запроса.",
+    "fields": {
+      "receipt_id": "Квитанция ещё не подтверждена."
+    },
+    "request_id": "req_demo_001"
+  }
+}
